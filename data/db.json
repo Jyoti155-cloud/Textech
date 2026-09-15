@@ -1,0 +1,114 @@
+{
+  "users": [
+    {
+      "id": "usr_aarav",
+      "name": "Aarav Patel",
+      "email": "aarav@example.com",
+      "passwordHash": "519734722983519340142dfa9c18a351386e950e4d4d7789cccdcd2688910348",
+      "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "role": "Pro Member",
+      "createdAt": "2026-09-01T12:00:00.000Z",
+      "preferences": {
+        "defaultLanguage": "en-IN",
+        "defaultVoice": "en-in-male-arjun",
+        "defaultSpeed": 1
+      }
+    },
+    {
+      "id": "usr_priya",
+      "name": "Priya Sharma",
+      "email": "priya@example.com",
+      "passwordHash": "519734722983519340142dfa9c18a351386e950e4d4d7789cccdcd2688910348",
+      "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+      "role": "Pro Member",
+      "createdAt": "2026-09-04T12:00:00.000Z",
+      "preferences": {
+        "defaultLanguage": "hi-IN",
+        "defaultVoice": "hi-in-female-sunita",
+        "defaultSpeed": 1
+      }
+    },
+    {
+      "id": "usr_rohan",
+      "name": "Rohan Deshmukh",
+      "email": "rohan@example.com",
+      "passwordHash": "519734722983519340142dfa9c18a351386e950e4d4d7789cccdcd2688910348",
+      "avatarUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+      "role": "Member",
+      "createdAt": "2026-09-09T12:00:00.000Z",
+      "preferences": {
+        "defaultLanguage": "mr-IN",
+        "defaultVoice": "mr-in-male-sachin",
+        "defaultSpeed": 1
+      }
+    },
+    {
+      "id": "usr_ananya",
+      "name": "Ananya Iyer",
+      "email": "ananya@example.com",
+      "passwordHash": "519734722983519340142dfa9c18a351386e950e4d4d7789cccdcd2688910348",
+      "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "role": "Pro Member",
+      "createdAt": "2026-09-12T12:00:00.000Z",
+      "preferences": {
+        "defaultLanguage": "ta-IN",
+        "defaultVoice": "ta-in-female-kavya",
+        "defaultSpeed": 1
+      }
+    }
+  ],
+  "history": [
+    {
+      "userId": "usr_aarav",
+      "text": "नमस्ते! यह वाणी टेक्स्ट टू स्पीच पोर्टल का लाइव परीक्षण है।",
+      "language": "hi-IN",
+      "voice": "hi-in-female-sunita",
+      "audioUrl": "/audio/speech_d65aed8c63d5483568f22303.mp3",
+      "characterCount": 59,
+      "wordCount": 11,
+      "duration": 4.6,
+      "isFavorite": false,
+      "id": "hist_bbc26a7d686768e5",
+      "createdAt": "2026-09-14T21:30:30.780Z"
+    },
+    {
+      "id": "hist_aarav_1",
+      "userId": "usr_aarav",
+      "text": "Good morning everyone. Welcome to the Indian Text-to-Speech studio. You can easily listen to daily news, study material, and technical docs in clear Indian voices.",
+      "language": "en-IN",
+      "voice": "Arjun",
+      "audioUrl": "/audio/sample-en.mp3",
+      "characterCount": 161,
+      "wordCount": 26,
+      "duration": 8.5,
+      "isFavorite": true,
+      "createdAt": "2026-09-14T18:20:00.000Z"
+    },
+    {
+      "id": "hist_priya_1",
+      "userId": "usr_priya",
+      "text": "नमस्ते दोस्तों! टेक्स्ट टू स्पीच पोर्टल में आपका स्वागत है। यहां आप हिंदी, गुजराती, मराठी और अन्य भारतीय भाषाओं में प्राकृतिक आवाज़ सुन सकते हैं।",
+      "language": "hi-IN",
+      "voice": "Sunita",
+      "audioUrl": "/audio/sample-hi.mp3",
+      "characterCount": 140,
+      "wordCount": 23,
+      "duration": 7.2,
+      "isFavorite": true,
+      "createdAt": "2026-09-14T19:30:00.000Z"
+    },
+    {
+      "id": "hist_rohan_1",
+      "userId": "usr_rohan",
+      "text": "नमस्कार! मराठी भाषेत मजकूर ऐकण्यासाठी ही एक उत्कृष्ट प्रणाली आहे. आपले साहित्य आणि बातम्या सहजपणे ऑडिओमध्ये रूपांतरित करा.",
+      "language": "mr-IN",
+      "voice": "Sachin",
+      "audioUrl": "/audio/sample-mr.mp3",
+      "characterCount": 124,
+      "wordCount": 19,
+      "duration": 6.4,
+      "isFavorite": true,
+      "createdAt": "2026-09-14T20:15:00.000Z"
+    }
+  ]
+}

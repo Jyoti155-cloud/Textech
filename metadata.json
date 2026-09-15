@@ -1,0 +1,6 @@
+{
+  "name": "Textech(Text -> Speech)",
+  "description": "Textech(Text -> Speech) - Advanced text-to-speech studio with multi-lingual voice synthesis across Indian and international languages, distinct male/female voice profiles, audio preview, and MP3 download.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
