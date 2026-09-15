@@ -169,9 +169,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-xs shrink-0">
                 <Volume2 className="w-4 h-4" />
               </div>
-              <div className="flex items-baseline gap-1">
-                <span className="font-bold text-base text-slate-900 tracking-tight">Textech</span>
-                <span className="text-xs text-slate-500 font-medium">(TTS)</span>
+              <div className="flex items-baseline gap-1 min-w-0">
+                <span className="font-bold text-base text-slate-900 tracking-tight whitespace-nowrap">Textech</span>
+                <span className="text-xs text-slate-500 font-medium whitespace-nowrap">(Text &rarr; Speech)</span>
               </div>
             </div>
 
