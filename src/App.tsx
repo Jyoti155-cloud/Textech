@@ -13,7 +13,7 @@ import { ErrorMessage } from './components/ErrorMessage';
 import { Language, Voice, SpeechHistoryItem, TTSResponse } from './types';
 import { api } from './services/api';
 import { getAccentsForLanguage } from './utils/accentConfig';
-import { Sparkles, CheckCircle2, ShieldCheck, Zap, Globe, AudioWaveform } from 'lucide-react';
+import { ShieldCheck, Zap, Globe } from 'lucide-react';
 
 function MainTTSContent() {
   const { user } = useAuth();

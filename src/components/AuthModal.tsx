@@ -101,7 +101,7 @@ export const AuthModal: React.FC = () => {
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              New Account
+              Register
             </button>
           </div>
 
@@ -173,12 +173,46 @@ export const AuthModal: React.FC = () => {
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <>
-                  <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
+                  <span>{mode === 'login' ? 'Sign In' : 'Register Account'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </button>
           </form>
+
+          <div className="mt-4 text-center text-xs text-slate-500">
+            {mode === 'login' ? (
+              <p>
+                Don't have an account?{' '}
+                <button
+                  type="button"
+                  id="link-switch-to-register"
+                  onClick={() => {
+                    setMode('register');
+                    setError(null);
+                  }}
+                  className="text-indigo-600 font-semibold hover:underline"
+                >
+                  Register
+                </button>
+              </p>
+            ) : (
+              <p>
+                Already have an account?{' '}
+                <button
+                  type="button"
+                  id="link-switch-to-login"
+                  onClick={() => {
+                    setMode('login');
+                    setError(null);
+                  }}
+                  className="text-indigo-600 font-semibold hover:underline"
+                >
+                  Sign In
+                </button>
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
