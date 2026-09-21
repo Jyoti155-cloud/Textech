@@ -35,9 +35,10 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`TTS Application Server running on http://0.0.0.0:${PORT}`);
   });
+  server.setTimeout(300000);
 }
 
 startServer().catch((err) => {

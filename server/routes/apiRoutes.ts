@@ -87,10 +87,10 @@ router.post('/tts', optionalAuth, async (req: AuthenticatedRequest, res: Respons
       });
     }
 
-    if (text.trim().length > 2000) {
+    if (text.trim().length > 100000) {
       return res.status(400).json({
         success: false,
-        message: `Validation error: Text length (${text.trim().length}) exceeds maximum limit of 2000 characters.`,
+        message: `Validation error: Text length (${text.trim().length}) exceeds maximum limit of 100,000 characters.`,
       });
     }
 

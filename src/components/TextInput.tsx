@@ -15,7 +15,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   value,
   onChange,
   onClear,
-  maxChars = 2000,
+  maxChars = 100000,
   onError,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -140,12 +140,12 @@ export const TextInput: React.FC<TextInputProps> = ({
           <span className="font-mono">
             Characters:{' '}
             <strong className={charCount > maxChars * 0.9 ? 'text-amber-600' : 'text-slate-800'}>
-              {charCount}
+              {charCount.toLocaleString()}
             </strong>{' '}
-            / {maxChars}
+            / {maxChars.toLocaleString()}
           </span>
           <span>
-            Words: <strong className="text-slate-800">{wordCount}</strong>
+            Words: <strong className="text-slate-800">{wordCount.toLocaleString()}</strong>
           </span>
           {wordCount > 0 && (
             <span className="hidden md:inline">
@@ -153,7 +153,9 @@ export const TextInput: React.FC<TextInputProps> = ({
               <strong className="text-indigo-700">
                 {estimatedSeconds < 60
                   ? `${estimatedSeconds}s`
-                  : `${Math.floor(estimatedSeconds / 60)}m ${estimatedSeconds % 60}s`}
+                  : estimatedSeconds < 3600
+                  ? `${Math.floor(estimatedSeconds / 60)}m ${estimatedSeconds % 60}s`
+                  : `${Math.floor(estimatedSeconds / 3600)}h ${Math.floor((estimatedSeconds % 3600) / 60)}m`}
               </strong>
             </span>
           )}

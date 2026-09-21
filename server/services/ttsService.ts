@@ -701,8 +701,48 @@ export function resolveNeuralVoice(
   return isMale ? 'en-US-ChristopherNeural' : 'en-US-JennyNeural';
 }
 
-// High-fidelity neural speech synthesis using Microsoft Edge Neural TTS
-async function generateSpeechWithEdgeTTS(
+// Split text into readable chunks for neural TTS synthesis without breaking sentences
+function splitTextIntoNeuralChunks(text: string, maxChunkLen = 2200): string[] {
+  const trimmed = text.trim();
+  if (trimmed.length <= maxChunkLen) return [trimmed];
+
+  const chunks: string[] = [];
+  const sentences = trimmed.split(/(?<=[.\n\r?!।॥;])/);
+  let currentChunk = '';
+
+  for (const sentence of sentences) {
+    if ((currentChunk + sentence).length <= maxChunkLen) {
+      currentChunk += sentence;
+    } else {
+      if (currentChunk.trim().length > 0) {
+        chunks.push(currentChunk.trim());
+      }
+      if (sentence.length <= maxChunkLen) {
+        currentChunk = sentence;
+      } else {
+        const words = sentence.split(/\s+/);
+        currentChunk = '';
+        for (const word of words) {
+          if ((currentChunk + ' ' + word).trim().length <= maxChunkLen) {
+            currentChunk = (currentChunk + ' ' + word).trim();
+          } else {
+            if (currentChunk.trim()) chunks.push(currentChunk.trim());
+            currentChunk = word;
+          }
+        }
+      }
+    }
+  }
+
+  if (currentChunk.trim().length > 0) {
+    chunks.push(currentChunk.trim());
+  }
+
+  return chunks.length > 0 ? chunks : [trimmed];
+}
+
+// Synthesize a single chunk with Microsoft Edge Neural TTS
+async function generateSingleEdgeTTSChunk(
   text: string,
   neuralVoice: string,
   userSpeed: number = 1.0,
@@ -738,18 +778,19 @@ async function generateSpeechWithEdgeTTS(
 
       audioStream.pipe(writeStream);
 
+      const timeoutMs = Math.max(20000, Math.min(120000, text.length * 40));
       const timer = setTimeout(() => {
         try { writeStream.end(); } catch {}
-        if (bytesReceived > 800 && fs.existsSync(destPath)) {
+        if (bytesReceived > 400 && fs.existsSync(destPath)) {
           resolve(true);
         } else {
           resolve(false);
         }
-      }, 14000);
+      }, timeoutMs);
 
       writeStream.on('finish', () => {
         clearTimeout(timer);
-        if (bytesReceived > 500 && fs.existsSync(destPath) && fs.statSync(destPath).size > 500) {
+        if (bytesReceived > 400 && fs.existsSync(destPath) && fs.statSync(destPath).size > 400) {
           resolve(true);
         } else {
           resolve(false);
@@ -772,6 +813,62 @@ async function generateSpeechWithEdgeTTS(
       resolve(false);
     }
   });
+}
+
+// High-fidelity neural speech synthesis using Microsoft Edge Neural TTS with multi-chunk support up to 100,000 characters
+async function generateSpeechWithEdgeTTS(
+  text: string,
+  neuralVoice: string,
+  userSpeed: number = 1.0,
+  userPitch: number = 1.0,
+  destPath: string
+): Promise<boolean> {
+  const trimmed = text.trim();
+  if (!trimmed) return false;
+
+  // If text is short, generate in a single pass
+  if (trimmed.length <= 2500) {
+    return generateSingleEdgeTTSChunk(trimmed, neuralVoice, userSpeed, userPitch, destPath);
+  }
+
+  // Multi-chunk synthesis for long documents up to 100,000 characters
+  const chunks = splitTextIntoNeuralChunks(trimmed, 2200);
+  const tempFiles: string[] = [];
+
+  try {
+    for (let i = 0; i < chunks.length; i++) {
+      const chunkPath = path.join(
+        AUDIO_DIR,
+        `temp_edge_${Date.now()}_${i}_${Math.random().toString(36).slice(2)}.mp3`
+      );
+      const ok = await generateSingleEdgeTTSChunk(chunks[i], neuralVoice, userSpeed, userPitch, chunkPath);
+      if (!ok || !fs.existsSync(chunkPath) || fs.statSync(chunkPath).size < 300) {
+        throw new Error(`Failed to synthesize chunk ${i + 1} of ${chunks.length}`);
+      }
+      tempFiles.push(chunkPath);
+    }
+
+    // Concatenate all synthesized MP3 chunks into destination file
+    const outStream = fs.createWriteStream(destPath);
+    for (const chunkFile of tempFiles) {
+      const buf = fs.readFileSync(chunkFile);
+      outStream.write(buf);
+    }
+    outStream.end();
+
+    await new Promise<void>((resolve) => outStream.on('finish', () => resolve()));
+
+    return fs.existsSync(destPath) && fs.statSync(destPath).size > 500;
+  } catch (err: any) {
+    console.warn('Edge TTS multi-chunk error:', err?.message || err);
+    return false;
+  } finally {
+    for (const file of tempFiles) {
+      try {
+        if (fs.existsSync(file)) fs.unlinkSync(file);
+      } catch {}
+    }
+  }
 }
 
 async function transformAudioWithVoice(
@@ -889,8 +986,8 @@ export const ttsService = {
     if (!cleanText) {
       throw new Error('Text must not be empty.');
     }
-    if (cleanText.length > 2000) {
-      throw new Error('Text exceeds maximum limit of 2000 characters.');
+    if (cleanText.length > 100000) {
+      throw new Error('Text exceeds maximum limit of 100,000 characters.');
     }
 
     const resolvedVoiceId = voiceId || voiceParam;

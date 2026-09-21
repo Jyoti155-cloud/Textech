@@ -136,8 +136,8 @@ function MainTTSContent() {
       setError('Please enter or paste some text to synthesize.');
       return;
     }
-    if (trimmed.length > 2000) {
-      setError('Text exceeds maximum limit of 2000 characters.');
+    if (trimmed.length > 100000) {
+      setError('Text exceeds maximum limit of 100,000 characters.');
       return;
     }
 
@@ -297,7 +297,7 @@ function MainTTSContent() {
               value={inputText}
               onChange={setInputText}
               onClear={() => setInputText('')}
-              maxChars={2000}
+              maxChars={100000}
               selectedLanguage={selectedLanguage}
               onError={(msg) => setError(msg)}
             />
